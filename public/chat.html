@@ -10,11 +10,12 @@
       form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
       #messages { list-style-type: none; margin: 0; padding: 0; }
       #messages li { padding: 5px 10px; }
-      #messages li:nth-child(odd) { background: #eee; }
+      /*#messages li:nth-child(odd) { background: #eee; }*/
     </style>
   </head>
-  <script src="/socket.io/socket.io.js"></script>
+  <script src="../socket.io/socket.io.js"></script>
   <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+  <script src="main.js" type="module"></script>
   <script>
     $(function () {
       var socket = io();
@@ -29,10 +30,14 @@
     });
   </script>
   <body>
-    <h1>Chat:</h1>
-    <ul id="messages"></ul>
+    <div class="mazeContainer" style="position:fixed">
+      <h1>Chat:</h1>
+        <ul id="messages" style="z-index: 10"></ul>
+        <canvas id="mazeCanvas" width="360" height="640" style="position:absolute;top:30px;z-index: -10;"></canvas>
+    </div> 
     <form action="">
       <input id="m" autocomplete="off" /><button>Send</button>
     </form>
+    
   </body>
 </html>
