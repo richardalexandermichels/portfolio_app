@@ -9,9 +9,10 @@ import {
 } from './constants.js';
 
 var m = document.getElementById('mazeCanvas'),
-    mazeHeight = m.height,
-    mazeWidth = m.width,
+    mazeHeight = m.clientHeight,
+    mazeWidth = m.clientWidth,
     ctx = m.getContext('2d');
+console.log("height: ", mazeHeight, " width: ", mazeWidth)
 ctx.fillStyle = "#ffffff";
 ctx.strokeStyle = 'rgb(0, 0, 0, 1)';;
 ctx.lineWidth = 2;
@@ -45,6 +46,7 @@ generateMaze();
 // console.log(mazeHeight, mazeWidth)
 
 function initGrid() {
+    console.log("HEY HEY " + mazeWidth, SQUARE_SIZE)
     for (var k = 0; k <= mazeWidth; k += SQUARE_SIZE) { //iterate through columns
         ctx.beginPath();
         ctx.moveTo(k, 0);
@@ -75,18 +77,17 @@ function initMaze() { //fill the grid randomly
 function generateMaze() {
     var n = (mazeHeight * mazeWidth - (SQUARE_SIZE * SQUARE_SIZE)) / (SQUARE_SIZE * SQUARE_SIZE);
     n--
-    console.log("n: " + n)
+    // console.log("n: " + n)
     var node = theMaze[0][0]
     node.visited = true;
     var unvisitedNeighbors = nextUnvisited(node);
     var randomUnvisited = unvisitedNeighbors[Math.floor(Math.random() * unvisitedNeighbors.length)];
     var currentNode = move(node, randomUnvisited);
     //currentNode = move(currentNode, 'east');
-    console.log("currentNode " + currentNode, "visited: " + currentNode.visited == false);
+    // console.log("currentNode " + currentNode, "visited: " + currentNode.visited == false);
     var stack = [];
     stack.push(currentNode);
     while (0 < n) {
-        console.log("RANDOM")
         unvisitedNeighbors = nextUnvisited(currentNode);
         if (unvisitedNeighbors.length) {
             n = n - 1;
@@ -105,7 +106,7 @@ function buildBranch(currentNode) {
 }
 
 function move(node, direction) {
-    console.log("Move " + direction);
+    // console.log("Move " + direction);
     var nextNode = getNextNode(direction, node);
     if (!nextNode) {
         return false;
@@ -179,7 +180,6 @@ function nextUnvisited(node) {
 }
 
 function getNextNode(direction, node) {
-    console.log("get next node " + direction);
     //prolly need switch case
     if (direction == 'east') {
         if (node.x >= mazeWidth) {
@@ -198,7 +198,6 @@ function getNextNode(direction, node) {
 
     }
     if (direction == 'north') {
-        console.log(node.x)
         if (node.y <= 0) {
             return false;
         } else {
@@ -207,7 +206,6 @@ function getNextNode(direction, node) {
 
     }
     if (direction == 'south') {
-        console.log(node.x)
         if (node.y > mazeHeight - (SQUARE_SIZE * 2)) {
             return false;
         } else {
@@ -217,7 +215,7 @@ function getNextNode(direction, node) {
     }
 
 }
-console.log(theMaze[0][0]);
+// console.log(theMaze[0][0]);
 
 // var nodeXdiff = theMaze[2 * SQUARE_SIZE][4 * SQUARE_SIZE].x - theMaze[2 * SQUARE_SIZE][5 * SQUARE_SIZE].x;
 // var nodeYdiff = theMaze[2 * SQUARE_SIZE][4 * SQUARE_SIZE].y - theMaze[1 * SQUARE_SIZE][3 * SQUARE_SIZE].y;
