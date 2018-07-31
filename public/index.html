@@ -10,7 +10,10 @@
   stroke-width: 1.5px;
 }
 </style>
-<svg width="800" height="640"></svg>
+<html>
+  Hello World! </br> <a href="/about">about me</a>
+  <svg width="800" height="640"></svg>
+</html>
 <script src="https://d3js.org/d3.v5.min.js"></script>
 <script>
 var svg = d3.select("svg"),
@@ -19,6 +22,8 @@ var svg = d3.select("svg"),
     height = +svg.attr("height") - margin.top - margin.bottom,
     g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+
+console.log("SVG ", svg)
 var parseTime = d3.timeParse("%Y%m%d");
 
 var x = d3.scaleTime()
@@ -28,30 +33,22 @@ var y = d3.scaleLinear()
     .rangeRound([height, 0]);
 
 var lineNY = d3.line()
-    .x(function(d) { return x(d.date); })
+    .x(function(d) { return x(parseTime(d.date)); })
     .y(function(d) { return y(d["New York"]); });
 
 var lineSF = d3.line()
-    .x(function(d) { return x(d.date); })
+    .x(function(d) { return x(parseTime(d.date)); })
     .y(function(d) { return y(d["San Francisco"]); });
 
 var lineAU = d3.line()
-    .x(function(d) { return x(d.date); })
+    .x(function(d) { return x(parseTime(d.date)); })
     .y(function(d) { return y(d["Austin"]); });
 
-d3.tsv("/data/dataReal.tsv").then(function(d) {
-  // console.log(d);
-  d.date = parseTime(d.date);
-  // console.log(d.date);
-  d["New York"] = +d["New York"];
-  d["San Francisco"] = +d["San Francisco"];
-  d["Austin"] = +d["Austin"];
-  return d;
-},function(error,data) {
+d3.tsv("/data/dataReal.tsv").then(function(data) {
 
   x.domain(d3.extent(data, function(d) { 
     console.log('TEST ',d.date);
-    return d.date; }));
+    return parseTime(d.date); }));
   y.domain([0,100]);
 
   g.append("g")
