@@ -14,6 +14,8 @@ app.get('/about', (req, res) => res.send('Hi I\'m Richard </br> <a href="/">back
 
 app.get('/chat', (req, res) => res.sendFile(__dirname + '/public/chat.html'))
 
+app.get('/meteorites', (req, res) => res.sendFile(__dirname + '/public/meteorites.html'))
+
 io.on('connection', (socket) => {
     console.log('a user connected');
     socket.on('chat message', (msg) => {
