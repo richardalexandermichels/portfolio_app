@@ -78,7 +78,6 @@ generateMaze();
 //create maze 2d array
 
 function initGrid() {
-    console.log("HEY HEY " + mazeWidth * _constants.SQUARE_SIZE, _constants.SQUARE_SIZE);
     for (var k = 0; k <= mazeWidth * _constants.SQUARE_SIZE; k += _constants.SQUARE_SIZE) {
         //iterate through columns
         ctx.beginPath();
@@ -106,7 +105,6 @@ function initMaze() {
             theMaze[j][k] = new Node(k, j, false);
         }
     }
-    console.log(theMaze);
 }
 
 function generateMaze() {
@@ -124,7 +122,6 @@ function generateMaze() {
     stack.push(currentNode);
     while (0 < n) {
         unvisitedNeighbors = nextUnvisited(currentNode);
-        console.log("UNVISITED LENGTH " + unvisitedNeighbors.length);
         if (unvisitedNeighbors.length) {
             n = n - 1;
             randomUnvisited = unvisitedNeighbors[Math.floor(Math.random() * unvisitedNeighbors.length)];
@@ -221,7 +218,6 @@ function getNextNode(direction, node) {
     if (direction == 'east') {
         // console.log("East", node.x, mazeWidth);
         if (node.x >= mazeWidth - 1) {
-            console.log("WRONG " + direction);
             return false;
         } else {
             // console.log("next node east ", theMaze[node.y][node.x + 1])
@@ -231,7 +227,6 @@ function getNextNode(direction, node) {
     if (direction == 'west') {
         // console.log("West", node.x, mazeWidth);
         if (node.x <= 0) {
-            console.log("WRONG " + direction);
             return false;
         } else {
             // console.log("next node west ", theMaze[node.y][node.x - 1])
@@ -241,7 +236,6 @@ function getNextNode(direction, node) {
     if (direction == 'north') {
         // console.log("North", node.y, mazeHeight);
         if (node.y <= 0) {
-            console.log("WRONG " + direction);
             return false;
         } else {
             // console.log("next node north ", theMaze[node.y - 1][node.x])
@@ -251,7 +245,6 @@ function getNextNode(direction, node) {
     if (direction == 'south') {
         // console.log("South", node.y, mazeHeight);
         if (node.y >= mazeHeight - 1) {
-            console.log("WRONG " + direction);
             return false;
         } else {
             // console.log("next node south ", theMaze[node.y + 1][node.x])
