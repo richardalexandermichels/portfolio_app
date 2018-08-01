@@ -13,9 +13,11 @@
 <html>
   Hello World! </br> 
   <a href="/about">about me</a> </br> 
-  <a href="http://www.movies.richardmichels.info">movies</a>
-  <svg width="800" height="640"></svg>
+  <a href="http://www.movies.richardmichels.info">movies</a></br> 
+  <svg width="800" height="640"></svg> </br>
+  <canvas id="mazeCanvas" width="400" height="400"></canvas>
 </html>
+<script src="/dist/bundle.js"></script>
 <script src="https://d3js.org/d3.v5.min.js"></script>
 <script>
 var svg = d3.select("svg"),
@@ -24,8 +26,6 @@ var svg = d3.select("svg"),
     height = +svg.attr("height") - margin.top - margin.bottom,
     g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-
-console.log("SVG ", svg)
 var parseTime = d3.timeParse("%Y%m%d");
 
 var x = d3.scaleTime()
@@ -49,7 +49,6 @@ var lineAU = d3.line()
 d3.tsv("/data/dataReal.tsv").then(function(data) {
 
   x.domain(d3.extent(data, function(d) { 
-    console.log('TEST ',d.date);
     return parseTime(d.date); }));
   y.domain([0,100]);
 

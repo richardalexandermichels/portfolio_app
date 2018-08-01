@@ -12,9 +12,10 @@ app.get('/about', (req, res) => res.send('Hi I\'m Richard </br> <a href="/">back
 
 // app.get('/', (req, res) => res.send('Hello World! </br> <a href="/about">about me</a>'));
 
-app.get('/chat', (req, res) => res.sendFile(__dirname + '/public/chat.html'))
+app.get('/chat', (req, res) => res.sendFile(__dirname + '/public/chat.html'));
 
-app.get('/meteorites', (req, res) => res.sendFile(__dirname + '/public/meteorites.html'))
+app.get('/meteorites', (req, res) => res.sendFile(__dirname + '/public/meteorites.html'));
+
 
 io.on('connection', (socket) => {
     console.log('a user connected');
@@ -26,4 +27,4 @@ io.on('connection', (socket) => {
 });
 
 
-server.listen(8080, () => console.log('Example app listening on port 8080!'))
+server.listen(8080, () => console.log('Portfolio app listening on port 8080!'))
