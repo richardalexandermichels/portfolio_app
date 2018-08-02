@@ -1,8 +1,3 @@
-import {
-    FPSINTERVALNUM,
-    SQUARE_SIZE,
-    globalObj
-} from './constants.js';
 /*
 CANVAS UTILS
 */
@@ -15,15 +10,10 @@ function getMousePos(canvas, evt) {
     };
 }
 
-function createArray(rows) { //creates a 2 dimensional array of required height
+exports.createArray = function(rows) { //creates a 2 dimensional array of required height
     var arr = [];
     for (var i = 0; i < rows; i += 1) {
         arr[i] = [];
     }
     return arr;
 }
-
-export {
-    createArray,
-    getMousePos
-};

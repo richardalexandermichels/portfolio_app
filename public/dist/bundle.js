@@ -21,6 +21,121 @@ exports.globalObj = globalObj;
 },{}],2:[function(require,module,exports){
 'use strict';
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var SQUARE_SIZE = 20;
+
+var m = document.getElementById('mazeCanvas'),
+    mazeHeight = m.clientHeight,
+    mazeWidth = m.clientWidth,
+    ctx = m.getContext('2d');
+mazeHeight = mazeHeight / SQUARE_SIZE;
+mazeWidth = mazeWidth / SQUARE_SIZE;
+ctx.fillStyle = "#ffffff";
+ctx.strokeStyle = 'rgb(0, 0, 0, 1)';;
+ctx.lineWidth = 2;
+
+var mazeToMake = null;
+
+fetch('/maze').then(function (response) {
+    return response.json();
+}).then(function (data) {
+    console.log(data);
+    mazeToMake = data;
+    initGrid();
+});
+
+function initGrid() {
+    for (var k = 0; k <= mazeWidth * SQUARE_SIZE; k += SQUARE_SIZE) {
+        //iterate through columns
+        ctx.beginPath();
+        ctx.moveTo(k, 0);
+        ctx.lineTo(k, mazeHeight * SQUARE_SIZE);
+        ctx.stroke();
+        ctx.closePath();
+    }
+    for (var j = 0; j <= mazeHeight * SQUARE_SIZE; j += SQUARE_SIZE) {
+        //iterate through rows
+        ctx.beginPath();
+        ctx.moveTo(0, j);
+        ctx.lineTo(mazeWidth * SQUARE_SIZE, j);
+        ctx.stroke();
+        ctx.closePath();
+    }
+    for (var i = 0; i < mazeHeight; i++) {
+        for (var n = 0; n < mazeWidth; n++) {
+            for (var dir in mazeToMake[i][n].brokenWalls) {
+                breakWall(mazeToMake[i][n], mazeToMake[i][n].brokenWalls[dir]);
+            }
+        }
+    }
+}
+
+function breakWall(node, direction) {
+    console.log("Break " + direction, node.id);
+    // node.brokenWall = direction;
+    if (direction == 'east') {
+        // console.log("Break East", node.wallX);
+        // console.log("Node width,height", (node.wallX - node.wallX + SQUARE_SIZE), (node.wallY - node.wallY + SQUARE_SIZE));
+        //Break right wall
+
+        ctx.fillRect(
+        /*x1*/
+        node.wallX + SQUARE_SIZE - 4,
+        /*y1*/
+        node.wallY + 1,
+        /*width*/
+        8,
+        /*height*/
+        SQUARE_SIZE - 2);
+    }
+    if (direction == 'west') {
+        // console.log("Break West", node.wallX);
+        //Break left wall
+        ctx.fillRect(
+        /*x1*/
+        node.wallX - 4,
+        /*y1*/
+        node.wallY + 1,
+        /*width*/
+        8,
+        /*height*/
+        SQUARE_SIZE - 2);
+    }
+    if (direction == 'north') {
+        // console.log("Break North", node.wallY);
+        //Break left wall
+        ctx.fillRect(
+        /*x1*/
+        node.wallX + 1,
+        /*y1*/
+        node.wallY - 4,
+        /*width*/
+        SQUARE_SIZE - 2,
+        /*height*/
+        8);
+    }
+    if (direction == 'south') {
+        // console.log("Break South", node.wallY);
+        //Break left wall
+        ctx.fillRect(
+        /*x1*/
+        node.wallX + 1,
+        /*y1*/
+        node.wallY + SQUARE_SIZE - 4,
+        /*width*/
+        SQUARE_SIZE - 2,
+        /*height*/
+        8);
+    }
+}
+
+exports.initGrid = initGrid;
+
+},{}],3:[function(require,module,exports){
+'use strict';
+
 var _constants = require('./constants.js');
 
 var constants = _interopRequireWildcard(_constants);
@@ -31,78 +146,61 @@ var _maze = require('./maze.js');
 
 var maze = _interopRequireWildcard(_maze);
 
+var _drawMaze = require('./drawMaze.js');
+
+var drawMaze = _interopRequireWildcard(_drawMaze);
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-},{"./constants.js":1,"./maze.js":3,"./utils.js":4}],3:[function(require,module,exports){
+},{"./constants.js":1,"./drawMaze.js":2,"./maze.js":4,"./utils.js":5}],4:[function(require,module,exports){
 'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.generatedMaze = undefined;
 
 var _utils = require('./utils.js');
 
 var _constants = require('./constants.js');
 
-var m = document.getElementById('mazeCanvas'),
-    mazeHeight = m.clientHeight,
-    mazeWidth = m.clientWidth,
-    ctx = m.getContext('2d');
-mazeHeight = mazeHeight / _constants.SQUARE_SIZE;
-mazeWidth = mazeWidth / _constants.SQUARE_SIZE;
-ctx.fillStyle = "#ffffff";
-ctx.strokeStyle = 'rgb(0, 0, 0, 1)';;
-ctx.lineWidth = 2;
+var mazeHeight = 20;
+var mazeWidth = 20;
+
 var theMaze = (0, _utils.createArray)(mazeHeight);
+console.log("the amze: ", theMaze);
 var directionsArr = ['east', 'west', 'north', 'south'];
 theMaze.getX = function () {
     return 0;
 };
 _constants.globalObj.maze = theMaze;
 
-var Node = function Node(x, y, visited) {
+var Node = function Node(x, y, visited, brokenWalls, id) {
     this.x = x;
     this.y = y;
     this.visited = visited;
     this.wallX = x * _constants.SQUARE_SIZE;
     this.wallY = y * _constants.SQUARE_SIZE;
-    this.getX = function () {
-        return this.x * _constants.SQUARE_SIZE;
-    };
-    this.getY = function () {
-        return this.x * _constants.SQUARE_SIZE;
-    };
+    this.brokenWalls = brokenWalls;
+    this.id = id;
 };
 
-initGrid();
+// initGrid();
 initMaze();
-generateMaze();
+// generateMaze();
 // console.log(mazeHeight, mazeWidth)
 
 //create maze 2d array
 
-function initGrid() {
-    for (var k = 0; k <= mazeWidth * _constants.SQUARE_SIZE; k += _constants.SQUARE_SIZE) {
-        //iterate through columns
-        ctx.beginPath();
-        ctx.moveTo(k, 0);
-        ctx.lineTo(k, mazeHeight * _constants.SQUARE_SIZE);
-        ctx.stroke();
-        ctx.closePath();
-    }
-    for (var j = 0; j <= mazeHeight * _constants.SQUARE_SIZE; j += _constants.SQUARE_SIZE) {
-        //iterate through rows
-        ctx.beginPath();
-        ctx.moveTo(0, j);
-        ctx.lineTo(mazeWidth * _constants.SQUARE_SIZE, j);
-        ctx.stroke();
-        ctx.closePath();
-    }
-}
 
 function initMaze() {
     //fill the grid randomly
+    var id = 0;
     for (var j = 0; j < mazeHeight; j += 1) {
         //iterate through rows
         for (var k = 0; k < mazeWidth; k += 1) {
             //iterate through columns
-            theMaze[j][k] = new Node(k, j, false);
+            theMaze[j][k] = new Node(k, j, false, null, id++);
         }
     }
 }
@@ -110,11 +208,17 @@ function initMaze() {
 function generateMaze() {
     var n = mazeHeight * mazeWidth - 1;
     n--;
+
+    //temp moves for test
+    // n = 9;
     // console.log("n: " + n)
     var node = theMaze[0][0];
     node.visited = true;
     var unvisitedNeighbors = nextUnvisited(node);
     var randomUnvisited = unvisitedNeighbors[Math.floor(Math.random() * unvisitedNeighbors.length)];
+
+    //temp for moves for test 
+    // randomUnvisited = 'south'
     var currentNode = move(node, randomUnvisited);
     //currentNode = move(currentNode, 'east');
     // console.log("currentNode " + currentNode, "visited: " + currentNode.visited == false);
@@ -131,73 +235,25 @@ function generateMaze() {
             currentNode = stack.pop();
         }
     }
+
+    return theMaze;
 }
 
 function move(node, direction) {
-    // console.log("Move " + direction);
+    // console.log("Move " + direction, node.id);
     var nextNode = getNextNode(direction, node);
     if (!nextNode) {
+        console.log("CANT MOVE THAT WAY");
         return false;
     }
     nextNode.visited = true;
-    breakWall(node, direction);
+    if (!!node.brokenWalls) {
+        node.brokenWalls.push(direction);
+    } else {
+        node.brokenWalls = [direction];
+    }
+    // breakWall(node, direction);
     return nextNode;
-}
-
-function breakWall(node, direction) {
-    if (direction == 'east') {
-        // console.log("Break East", node.wallX);
-        // console.log("Node width,height", (node.wallX - node.wallX + SQUARE_SIZE), (node.wallY - node.wallY + SQUARE_SIZE));
-        //Break right wall
-        ctx.fillRect(
-        /*x1*/
-        node.wallX + _constants.SQUARE_SIZE - 4,
-        /*y1*/
-        node.wallY + 1,
-        /*width*/
-        8,
-        /*height*/
-        _constants.SQUARE_SIZE - 2);
-    }
-    if (direction == 'west') {
-        // console.log("Break West", node.wallX);
-        //Break left wall
-        ctx.fillRect(
-        /*x1*/
-        node.wallX - 4,
-        /*y1*/
-        node.wallY + 1,
-        /*width*/
-        8,
-        /*height*/
-        _constants.SQUARE_SIZE - 2);
-    }
-    if (direction == 'north') {
-        // console.log("Break North", node.wallY);
-        //Break left wall
-        ctx.fillRect(
-        /*x1*/
-        node.wallX + 1,
-        /*y1*/
-        node.wallY - 4,
-        /*width*/
-        _constants.SQUARE_SIZE - 2,
-        /*height*/
-        8);
-    }
-    if (direction == 'south') {
-        // console.log("Break South", node.wallY);
-        //Break left wall
-        ctx.fillRect(
-        /*x1*/
-        node.wallX + 1,
-        /*y1*/
-        node.wallY + _constants.SQUARE_SIZE - 4,
-        /*width*/
-        _constants.SQUARE_SIZE - 2,
-        /*height*/
-        8);
-    }
 }
 
 function nextUnvisited(node) {
@@ -209,6 +265,8 @@ function nextUnvisited(node) {
             unvisitedArr.push(directionsArr[i]);
         }
     }
+    //temp for test 
+    // unvisitedArr = ['south'];
     return unvisitedArr;
 }
 
@@ -252,6 +310,8 @@ function getNextNode(direction, node) {
         }
     }
 }
+var generatedMaze = generateMaze();
+exports.generatedMaze = generatedMaze;
 // console.log(theMaze[0][0]);
 
 // var nodeXdiff = theMaze[2 * SQUARE_SIZE][4 * SQUARE_SIZE].x - theMaze[2 * SQUARE_SIZE][5 * SQUARE_SIZE].x;
@@ -261,15 +321,15 @@ function getNextNode(direction, node) {
 
 // ctx.clearRect(81, 41, nodeXdiff - 1 + SQUARE_SIZE - 2, SQUARE_SIZE - 2);
 
-},{"./constants.js":1,"./utils.js":4}],4:[function(require,module,exports){
-'use strict';
+},{"./constants.js":1,"./utils.js":5}],5:[function(require,module,exports){
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.getMousePos = exports.createArray = undefined;
 
-var _constants = require('./constants.js');
+var _constants = require("./constants.js");
 
 /*
 CANVAS UTILS
@@ -285,6 +345,7 @@ function getMousePos(canvas, evt) {
 
 function createArray(rows) {
     //creates a 2 dimensional array of required height
+    console.log("Called " + rows);
     var arr = [];
     for (var i = 0; i < rows; i += 1) {
         arr[i] = [];
@@ -295,4 +356,4 @@ function createArray(rows) {
 exports.createArray = createArray;
 exports.getMousePos = getMousePos;
 
-},{"./constants.js":1}]},{},[2]);
+},{"./constants.js":1}]},{},[3]);

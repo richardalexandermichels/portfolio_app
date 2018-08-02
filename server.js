@@ -3,9 +3,17 @@ var express = require('express'),
 //make sure you keep this order
 var app = express();
 var server = http.createServer(app);
+var bodyParser = require('body-parser');
+
 var io = require('socket.io').listen(server);
 
+var mazeRouter = require('./maze/mazeRoute');
+
 app.use(express.static('public'));
+app.use(bodyParser.urlencoded({
+    extended: false
+}));
+app.use(bodyParser.json());
 
 
 app.get('/about', (req, res) => res.send('Hi I\'m Richard </br> <a href="/">back</a>'));
@@ -16,6 +24,7 @@ app.get('/chat', (req, res) => res.sendFile(__dirname + '/public/chat.html'));
 
 app.get('/meteorites', (req, res) => res.sendFile(__dirname + '/public/meteorites.html'));
 
+app.use('/maze', mazeRouter);
 
 io.on('connection', (socket) => {
     console.log('a user connected');

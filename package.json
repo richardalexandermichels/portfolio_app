@@ -4,27 +4,29 @@
     "description": "",
     "main": "server.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build": "browserify ./public/js/main.js -o public/dist/bundle.js"
     },
     "author": "",
     "license": "ISC",
     "browserify": {
         "transform": [
             [
-                "babelify", {
-                    "presets": ["env"]
+                "babelify",
+                {
+                    "presets": [
+                        "env"
+                    ]
                 }
             ]
         ]
-    },
-    "scripts": {
-        "build": "browserify ./public/main.js -o public/dist/bundle.js"
     },
     "dependencies": {
         "browserify": "^16.2.2",
         "express": "^4.16.3",
         "socket.io": "^2.1.1",
-        "watchify": "^3.11.0"
+        "watchify": "^3.11.0",
+        "body-parser": "^1.12.0"
     },
     "devDependencies": {
         "babel-core": "^6.26.3",
