@@ -14,13 +14,15 @@
   Hello World! </br> 
   <a href="/about">about me</a> </br> 
   <a href="http://www.movies.richardmichels.info">movies</a></br>
-  <button id="_drawMaze">Draw a maze!</button> <input type='text' value='20' id="_mazeHeight"/>  <input type='text' value='20' id="_mazeWidth"/><button id="_playMaze">Play the maze!</button></br>
+  <button id="_drawMaze">Draw a maze!</button> <input type='text' value='20' id="_mazeHeight"/>  <input type='text' value='20' id="_mazeWidth"/><button id="_playMaze">Play the maze!</button><button id="_solveMaze">Solve the maze!</button></br>
   <div id="mazeCanvasContainer"></div>
   </br>
   <svg width="800" height="640"></svg>
 </html>
-<script src="/js/drawMaze.js"></script>
-<script src="/js/playMaze.js"></script>
+<script src="/js/globals.js"></script>
+<script src="/dist/bundle.js"></script>
+<!-- <script src="/js/drawMaze.js"></script> -->
+<!-- <script src="/js/playMaze.js"></script> -->
 <script src="https://d3js.org/d3.v5.min.js"></script>
 <script>
 var svg = d3.select("svg"),

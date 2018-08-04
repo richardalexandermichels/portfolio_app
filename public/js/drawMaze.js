@@ -1,5 +1,3 @@
-var SQUARE_SIZE = 20;
-var mazeToMake;
 document.getElementById('_drawMaze').onclick = function() {
     var canvasContainer = document.getElementById('mazeCanvasContainer');
     var oldCanvas = document.getElementById('mazeCanvas');
@@ -15,8 +13,8 @@ document.getElementById('_drawMaze').onclick = function() {
     canvasContainer.append(m);
 
     var mazeHeight = m.clientHeight,
-        mazeWidth = m.clientWidth,
-        ctx = m.getContext('2d');
+        mazeWidth = m.clientWidth
+    ctx = m.getContext('2d');
     mazeHeight = mazeHeight / SQUARE_SIZE;
     mazeWidth = mazeWidth / SQUARE_SIZE;
     ctx.fillStyle = "#ffffff";
@@ -76,6 +74,7 @@ function initGrid(ctx, mazeToMake, mazeHeight, mazeWidth) {
     }
     for (var i = 0; i < mazeHeight; i++) {
         for (var n = 0; n < mazeWidth; n++) {
+            mazeToMake[i][n].visited = false;
             for (var dir in mazeToMake[i][n].brokenWalls) {
                 breakWall(mazeToMake[i][n], mazeToMake[i][n].brokenWalls[dir], ctx);
             }

@@ -1,52 +1,63 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-/*
-                                                                        GAME OF LIFE CONSTANTS
-                                                                        */
-var FPSINTERVALNUM = 1000;
-var SQUARE_SIZE = 20;
-var globalObj = {};
-/*
-MAZE CONSTANTS
-*/
-
-exports.FPSINTERVALNUM = FPSINTERVALNUM;
-exports.SQUARE_SIZE = SQUARE_SIZE;
-exports.globalObj = globalObj;
-
-},{}],2:[function(require,module,exports){
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-var SQUARE_SIZE = 20;
+document.getElementById('_drawMaze').onclick = function () {
+    var canvasContainer = document.getElementById('mazeCanvasContainer');
+    var oldCanvas = document.getElementById('mazeCanvas');
+    if (!!oldCanvas) {
+        canvasContainer.removeChild(oldCanvas);
+    }
+    var m = document.createElement('canvas');
 
-var m = document.getElementById('mazeCanvas'),
-    mazeHeight = m.clientHeight,
-    mazeWidth = m.clientWidth,
+    m.id = "mazeCanvas";
+    m.width = +document.getElementById('_mazeHeight').value * SQUARE_SIZE;
+    m.height = +document.getElementById('_mazeWidth').value * SQUARE_SIZE;
+    m.style.zIndex = 8;
+    canvasContainer.append(m);
+
+    var mazeHeight = m.clientHeight,
+        mazeWidth = m.clientWidth;
     ctx = m.getContext('2d');
-mazeHeight = mazeHeight / SQUARE_SIZE;
-mazeWidth = mazeWidth / SQUARE_SIZE;
-ctx.fillStyle = "#ffffff";
-ctx.strokeStyle = 'rgb(0, 0, 0, 1)';;
-ctx.lineWidth = 2;
+    mazeHeight = mazeHeight / SQUARE_SIZE;
+    mazeWidth = mazeWidth / SQUARE_SIZE;
+    ctx.fillStyle = "#ffffff";
+    ctx.strokeStyle = 'rgb(0, 0, 0, 1)';;
+    ctx.lineWidth = 2;
 
-var mazeToMake = null;
+    var data = {
+        mazeHeight: mazeHeight,
+        mazeWidth: mazeWidth
+    };
+    fetch('/maze', {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(function (response) {
+        // console.log(response)
+        return response.json();
+    }).then(function (mTm) {
+        mazeToMake = mTm;
+        initGrid(ctx, mTm, mazeHeight, mazeWidth);
+    });
+};
 
-fetch('/maze').then(function (response) {
-    return response.json();
-}).then(function (data) {
-    console.log(data);
-    mazeToMake = data;
-    initGrid();
-});
+function initGrid(ctx, mazeToMake, mazeHeight, mazeWidth) {
 
-function initGrid() {
+    Object.getPrototypeOf(mazeToMake[0][0]).fill = function (ctx, color) {
+        ctx.fillStyle = color;
+        ctx.fillRect(
+        /*x1*/
+        this.wallX + 1,
+        /*y1*/
+        this.wallY + 1,
+        /*width*/
+        SQUARE_SIZE - 2,
+        /*height*/
+        SQUARE_SIZE - 2);
+    };
+
     for (var k = 0; k <= mazeWidth * SQUARE_SIZE; k += SQUARE_SIZE) {
         //iterate through columns
         ctx.beginPath();
@@ -65,15 +76,16 @@ function initGrid() {
     }
     for (var i = 0; i < mazeHeight; i++) {
         for (var n = 0; n < mazeWidth; n++) {
+            mazeToMake[i][n].visited = false;
             for (var dir in mazeToMake[i][n].brokenWalls) {
-                breakWall(mazeToMake[i][n], mazeToMake[i][n].brokenWalls[dir]);
+                breakWall(mazeToMake[i][n], mazeToMake[i][n].brokenWalls[dir], ctx);
             }
         }
     }
 }
 
-function breakWall(node, direction) {
-    console.log("Break " + direction, node.id);
+function breakWall(node, direction, ctx) {
+    // console.log("Break " + direction, node.id)
     // node.brokenWall = direction;
     if (direction == 'east') {
         // console.log("Break East", node.wallX);
@@ -131,127 +143,210 @@ function breakWall(node, direction) {
     }
 }
 
-exports.initGrid = initGrid;
-
-},{}],3:[function(require,module,exports){
+},{}],2:[function(require,module,exports){
 'use strict';
-
-var _constants = require('./constants.js');
-
-var constants = _interopRequireWildcard(_constants);
-
-var _utils = require('./utils.js');
-
-var _maze = require('./maze.js');
-
-var maze = _interopRequireWildcard(_maze);
 
 var _drawMaze = require('./drawMaze.js');
 
 var drawMaze = _interopRequireWildcard(_drawMaze);
 
+var _playMaze = require('./playMaze.js');
+
+var playMaze = _interopRequireWildcard(_playMaze);
+
+var _solveMaze = require('./solveMaze.js');
+
+var solveMaze = _interopRequireWildcard(_solveMaze);
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-},{"./constants.js":1,"./drawMaze.js":2,"./maze.js":4,"./utils.js":5}],4:[function(require,module,exports){
+},{"./drawMaze.js":1,"./playMaze.js":3,"./solveMaze.js":4}],3:[function(require,module,exports){
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.generatedMaze = undefined;
-
-var _utils = require('./utils.js');
-
-var _constants = require('./constants.js');
-
-var mazeHeight = 20;
-var mazeWidth = 20;
-
-var theMaze = (0, _utils.createArray)(mazeHeight);
-console.log("the amze: ", theMaze);
-var directionsArr = ['east', 'west', 'north', 'south'];
-theMaze.getX = function () {
-    return 0;
-};
-_constants.globalObj.maze = theMaze;
-
-var Node = function Node(x, y, visited, brokenWalls, id) {
-    this.x = x;
-    this.y = y;
-    this.visited = visited;
-    this.wallX = x * _constants.SQUARE_SIZE;
-    this.wallY = y * _constants.SQUARE_SIZE;
-    this.brokenWalls = brokenWalls;
-    this.id = id;
-};
-
-// initGrid();
-initMaze();
-// generateMaze();
-// console.log(mazeHeight, mazeWidth)
-
-//create maze 2d array
-
-
-function initMaze() {
-    //fill the grid randomly
-    var id = 0;
-    for (var j = 0; j < mazeHeight; j += 1) {
-        //iterate through rows
-        for (var k = 0; k < mazeWidth; k += 1) {
-            //iterate through columns
-            theMaze[j][k] = new Node(k, j, false, null, id++);
+var mazeControls = {
+    38: {
+        direction: 'north',
+        newX: function newX(oldX) {
+            return oldX;
+        },
+        newY: function newY(oldY) {
+            return oldY - 1;
+        }
+    },
+    37: {
+        direction: 'west',
+        newX: function newX(oldX) {
+            return oldX - 1;
+        },
+        newY: function newY(oldY) {
+            return oldY;
+        }
+    },
+    39: {
+        direction: 'east',
+        newX: function newX(oldX) {
+            return oldX + 1;
+        },
+        newY: function newY(oldY) {
+            return oldY;
+        }
+    },
+    40: {
+        direction: 'south',
+        newX: function newX(oldX) {
+            return oldX;
+        },
+        newY: function newY(oldY) {
+            return oldY + 1;
         }
     }
+};
+
+var dirOpposite = {
+    'east': 'west',
+    'west': 'east',
+    'north': 'south',
+    'south': 'north'
+};
+
+var mazePlayer = {
+    startPlaying: function startPlaying() {
+        var cur;
+        var ctx = document.getElementById('mazeCanvas').getContext('2d');
+        mazeToMake[0][0].fill(ctx, 'red');
+        cur = {
+            x: 0,
+            y: 0
+        };
+        window.addEventListener('keydown', function (e) {
+            // space and arrow keys
+            if ([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+                e.preventDefault();
+            }
+
+            if (!!mazeControls[e.keyCode]) {
+                if (!!mazeToMake[cur.y][cur.x].brokenWalls && mazeToMake[cur.y][cur.x].brokenWalls.indexOf(mazeControls[e.keyCode].direction) > -1) {
+                    mazeToMake[cur.y][cur.x].fill(ctx, 'white');
+                    cur.y = mazeControls[e.keyCode].newY(cur.y);
+                    cur.x = mazeControls[e.keyCode].newX(cur.x);
+                    if (!!mazeToMake[cur.y][cur.x].brokenWalls && mazeToMake[cur.y][cur.x].brokenWalls.indexOf(dirOpposite[mazeControls[e.keyCode].direction])) {
+                        mazeToMake[cur.y][cur.x].brokenWalls.push(dirOpposite[mazeControls[e.keyCode].direction]);
+                    } else if (!mazeToMake[cur.y][cur.x].brokenWalls) {
+
+                        mazeToMake[cur.y][cur.x].brokenWalls = [dirOpposite[mazeControls[e.keyCode].direction]];
+                    }
+                    mazeToMake[cur.y][cur.x].fill(ctx, 'red');
+                }
+            }
+        }, false);
+    }
+};
+
+document.getElementById('_playMaze').onclick = mazePlayer.startPlaying;
+
+},{}],4:[function(require,module,exports){
+'use strict';
+
+var mazeToSolve;
+var mazeHeight;
+var mazeWidth;
+var currentNode;
+var stack = [];
+var directionsArr = ['east', 'west', 'north', 'south'];
+
+function init() {
+    mazeToSolve = mazeToMake;
+    mazeHeight = mazeToSolve.length;
+    mazeWidth = mazeToSolve[0].length;
+    currentNode = mazeToSolve[0][0];
+    currentNode.visited = true;
+    Object.getPrototypeOf(currentNode).fillPath = function (ctx, color, fromDir) {
+        ctx.fillStyle = color;
+        if (fromDir == 'east') {
+            ctx.fillRect(
+            /*x1*/
+            this.wallX - 1,
+            /*y1*/
+            this.wallY + 1,
+            /*width*/
+            2,
+            /*height*/
+            SQUARE_SIZE - 2);
+        }
+        if (fromDir == 'west') {
+            ctx.fillRect(
+            /*x1*/
+            this.wallX + SQUARE_SIZE - 1,
+            /*y1*/
+            this.wallY + 1,
+            /*width*/
+            2,
+            /*height*/
+            SQUARE_SIZE - 2);
+        }
+        if (fromDir == 'north') {
+            ctx.fillRect(
+            /*x1*/
+            this.wallX + 1,
+            /*y1*/
+            this.wallY + SQUARE_SIZE - 1,
+            /*width*/
+            SQUARE_SIZE - 2,
+            /*height*/
+            2);
+        }
+        if (fromDir == 'south') {
+            ctx.fillRect(
+            /*x1*/
+            this.wallX + 1,
+            /*y1*/
+            this.wallY - 1,
+            /*width*/
+            SQUARE_SIZE - 2,
+            /*height*/
+            2);
+        }
+    };
+    currentNode.fill(ctx, 'red');
+    stack.push(currentNode);
+    console.log(mazeHeight, mazeWidth);
+    window.requestAnimationFrame(draw);
 }
 
-function generateMaze() {
-    var n = mazeHeight * mazeWidth - 1;
-    n--;
-
-    //temp moves for test
-    // n = 9;
-    // console.log("n: " + n)
-    var node = theMaze[0][0];
-    node.visited = true;
-    var unvisitedNeighbors = nextUnvisited(node);
+function draw() {
+    var ctx = document.getElementById('mazeCanvas').getContext('2d');
+    var unvisitedNeighbors = nextUnvisited(currentNode);
     var randomUnvisited = unvisitedNeighbors[Math.floor(Math.random() * unvisitedNeighbors.length)];
-
-    //temp for moves for test 
-    // randomUnvisited = 'south'
-    var currentNode = move(node, randomUnvisited);
     //currentNode = move(currentNode, 'east');
     // console.log("currentNode " + currentNode, "visited: " + currentNode.visited == false);
-    var stack = [];
-    stack.push(currentNode);
-    while (0 < n) {
-        unvisitedNeighbors = nextUnvisited(currentNode);
-        if (unvisitedNeighbors.length) {
-            n = n - 1;
-            randomUnvisited = unvisitedNeighbors[Math.floor(Math.random() * unvisitedNeighbors.length)];
-            currentNode = move(currentNode, randomUnvisited);
-            stack.push(currentNode);
-        } else {
-            currentNode = stack.pop();
-        }
+
+    unvisitedNeighbors = nextUnvisited(currentNode);
+
+    if (unvisitedNeighbors.length) {
+        stack.push(currentNode);
+        randomUnvisited = unvisitedNeighbors[Math.floor(Math.random() * unvisitedNeighbors.length)];
+        currentNode = move(currentNode, randomUnvisited);
+        currentNode.fill(ctx, 'red');
+        currentNode.fillPath(ctx, 'red', randomUnvisited);
+        currentNode.fromDir = randomUnvisited;
+    } else {
+        currentNode.fill(ctx, '#ffffff');
+        currentNode.fillPath(ctx, '#ffffff', currentNode.fromDir);
+
+        currentNode = stack.pop();
     }
 
-    return theMaze;
+    if (currentNode.x != mazeWidth - 1 || currentNode.y != mazeHeight - 1) {
+        window.requestAnimationFrame(draw);
+    }
 }
 
 function move(node, direction) {
-    // console.log("Move " + direction, node.id);
     var nextNode = getNextNode(direction, node);
     if (!nextNode) {
-        console.log("CANT MOVE THAT WAY");
         return false;
     }
     nextNode.visited = true;
-    if (!!node.brokenWalls) {
-        node.brokenWalls.push(direction);
-    } else {
-        node.brokenWalls = [direction];
-    }
     // breakWall(node, direction);
     return nextNode;
 }
@@ -265,21 +360,22 @@ function nextUnvisited(node) {
             unvisitedArr.push(directionsArr[i]);
         }
     }
-    //temp for test 
-    // unvisitedArr = ['south'];
     return unvisitedArr;
 }
 
 function getNextNode(direction, node) {
     // console.log("get next node " + direction);
     //prolly need switch case
+    if (!node.brokenWalls || node.brokenWalls.indexOf(direction) < 0) {
+        return false;
+    }
     if (direction == 'east') {
         // console.log("East", node.x, mazeWidth);
         if (node.x >= mazeWidth - 1) {
             return false;
         } else {
-            // console.log("next node east ", theMaze[node.y][node.x + 1])
-            return theMaze[node.y][node.x + 1];
+            // console.log("next node east ", mazeToSolve[node.y][node.x + 1])
+            return mazeToSolve[node.y][node.x + 1];
         }
     }
     if (direction == 'west') {
@@ -287,8 +383,8 @@ function getNextNode(direction, node) {
         if (node.x <= 0) {
             return false;
         } else {
-            // console.log("next node west ", theMaze[node.y][node.x - 1])
-            return theMaze[node.y][node.x - 1];
+            // console.log("next node west ", mazeToSolve[node.y][node.x - 1])
+            return mazeToSolve[node.y][node.x - 1];
         }
     }
     if (direction == 'north') {
@@ -296,8 +392,8 @@ function getNextNode(direction, node) {
         if (node.y <= 0) {
             return false;
         } else {
-            // console.log("next node north ", theMaze[node.y - 1][node.x])
-            return theMaze[node.y - 1][node.x];
+            // console.log("next node north ", mazeToSolve[node.y - 1][node.x])
+            return mazeToSolve[node.y - 1][node.x];
         }
     }
     if (direction == 'south') {
@@ -305,55 +401,12 @@ function getNextNode(direction, node) {
         if (node.y >= mazeHeight - 1) {
             return false;
         } else {
-            // console.log("next node south ", theMaze[node.y + 1][node.x])
-            return theMaze[node.y + 1][node.x];
+            // console.log("next node south ", mazeToSolve[node.y + 1][node.x])
+            return mazeToSolve[node.y + 1][node.x];
         }
     }
 }
-var generatedMaze = generateMaze();
-exports.generatedMaze = generatedMaze;
-// console.log(theMaze[0][0]);
 
-// var nodeXdiff = theMaze[2 * SQUARE_SIZE][4 * SQUARE_SIZE].x - theMaze[2 * SQUARE_SIZE][5 * SQUARE_SIZE].x;
-// var nodeYdiff = theMaze[2 * SQUARE_SIZE][4 * SQUARE_SIZE].y - theMaze[1 * SQUARE_SIZE][3 * SQUARE_SIZE].y;
-// console.log('TEST', nodeXdiff, nodeYdiff);
-// ctx.clearRect(2 * SQUARE_SIZE + 1, 2 * SQUARE_SIZE + 1, SQUARE_SIZE - 2, nodeYdiff - 1 + SQUARE_SIZE - 2);
+document.getElementById('_solveMaze').onclick = init;
 
-// ctx.clearRect(81, 41, nodeXdiff - 1 + SQUARE_SIZE - 2, SQUARE_SIZE - 2);
-
-},{"./constants.js":1,"./utils.js":5}],5:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.getMousePos = exports.createArray = undefined;
-
-var _constants = require("./constants.js");
-
-/*
-CANVAS UTILS
-*/
-
-function getMousePos(canvas, evt) {
-    var rect = canvas.getBoundingClientRect();
-    return {
-        x: evt.clientX - rect.left,
-        y: evt.clientY - rect.top
-    };
-}
-
-function createArray(rows) {
-    //creates a 2 dimensional array of required height
-    console.log("Called " + rows);
-    var arr = [];
-    for (var i = 0; i < rows; i += 1) {
-        arr[i] = [];
-    }
-    return arr;
-}
-
-exports.createArray = createArray;
-exports.getMousePos = getMousePos;
-
-},{"./constants.js":1}]},{},[3]);
+},{}]},{},[2]);

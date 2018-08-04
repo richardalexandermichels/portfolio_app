@@ -110,8 +110,6 @@ function nextUnvisited(node) {
             unvisitedArr.push(directionsArr[i]);
         }
     }
-    //temp for test 
-    // unvisitedArr = ['south'];
     return unvisitedArr;
 }
 
