@@ -1,6 +1,6 @@
 var createArray = require('./utils.js').createArray;
 
-var SQUARE_SIZE = require('./constants.js').SQUARE_SIZE;
+var GRID_SIZE = require('./constants.js').GRID_SIZE;
 
 
 
@@ -15,8 +15,8 @@ var Node = function(x, y, visited, brokenWalls, id) {
     this.x = x;
     this.y = y;
     this.visited = visited;
-    this.wallX = x * SQUARE_SIZE;
-    this.wallY = y * SQUARE_SIZE;
+    this.wallX = x * GRID_SIZE;
+    this.wallY = y * GRID_SIZE;
     this.brokenWalls = brokenWalls;
     this.id = id;
 };
@@ -42,7 +42,8 @@ function initMaze() { //fill the grid randomly
 
 
 
-exports.generateMaze = function(mH, mW) {
+exports.generateMaze = function(mH, mW, sQs) {
+    if (!!sQs) GRID_SIZE = sQs;
     mazeHeight = mH;
     mazeWidth = mW;
     theMaze = createArray(mazeHeight);
@@ -77,7 +78,7 @@ exports.generateMaze = function(mH, mW) {
         }
 
     }
-
+    theMaze.squareSize = GRID_SIZE;
     return theMaze;
 }
 
@@ -163,9 +164,9 @@ function getNextNode(direction, node) {
 
 // console.log(theMaze[0][0]);
 
-// var nodeXdiff = theMaze[2 * SQUARE_SIZE][4 * SQUARE_SIZE].x - theMaze[2 * SQUARE_SIZE][5 * SQUARE_SIZE].x;
-// var nodeYdiff = theMaze[2 * SQUARE_SIZE][4 * SQUARE_SIZE].y - theMaze[1 * SQUARE_SIZE][3 * SQUARE_SIZE].y;
+// var nodeXdiff = theMaze[2 * GRID_SIZE][4 * GRID_SIZE].x - theMaze[2 * GRID_SIZE][5 * GRID_SIZE].x;
+// var nodeYdiff = theMaze[2 * GRID_SIZE][4 * GRID_SIZE].y - theMaze[1 * GRID_SIZE][3 * GRID_SIZE].y;
 // console.log('TEST', nodeXdiff, nodeYdiff);
-// ctx.clearRect(2 * SQUARE_SIZE + 1, 2 * SQUARE_SIZE + 1, SQUARE_SIZE - 2, nodeYdiff - 1 + SQUARE_SIZE - 2);
+// ctx.clearRect(2 * GRID_SIZE + 1, 2 * GRID_SIZE + 1, GRID_SIZE - 2, nodeYdiff - 1 + GRID_SIZE - 2);
 
-// ctx.clearRect(81, 41, nodeXdiff - 1 + SQUARE_SIZE - 2, SQUARE_SIZE - 2);
+// ctx.clearRect(81, 41, nodeXdiff - 1 + GRID_SIZE - 2, GRID_SIZE - 2);

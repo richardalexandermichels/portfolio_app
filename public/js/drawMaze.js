@@ -1,4 +1,6 @@
+var GRID_SIZE;
 document.getElementById('_drawMaze').onclick = function() {
+    GRID_SIZE = +document.getElementById('_gridSize').value;
     var canvasContainer = document.getElementById('mazeCanvasContainer');
     var oldCanvas = document.getElementById('mazeCanvas');
     if (!!oldCanvas) {
@@ -7,16 +9,17 @@ document.getElementById('_drawMaze').onclick = function() {
     var m = document.createElement('canvas');
 
     m.id = "mazeCanvas";
-    m.width = +document.getElementById('_mazeHeight').value * SQUARE_SIZE;
-    m.height = +document.getElementById('_mazeWidth').value * SQUARE_SIZE;
+    m.width = +document.getElementById('_mazeHeight').value * GRID_SIZE;
+    m.height = +document.getElementById('_mazeWidth').value * GRID_SIZE;
     m.style.zIndex = 8;
     canvasContainer.append(m);
 
     var mazeHeight = m.clientHeight,
-        mazeWidth = m.clientWidth
+        mazeWidth = m.clientWidth,
+        gridSize = +document.getElementById('_gridSize').value;
     ctx = m.getContext('2d');
-    mazeHeight = mazeHeight / SQUARE_SIZE;
-    mazeWidth = mazeWidth / SQUARE_SIZE;
+    mazeHeight = mazeHeight / GRID_SIZE;
+    mazeWidth = mazeWidth / GRID_SIZE;
     ctx.fillStyle = "#ffffff";
     ctx.strokeStyle = 'rgb(0, 0, 0, 1)';;
     ctx.lineWidth = 2;
@@ -24,7 +27,8 @@ document.getElementById('_drawMaze').onclick = function() {
 
     var data = {
         mazeHeight: mazeHeight,
-        mazeWidth: mazeWidth
+        mazeWidth: mazeWidth,
+        gridSize: gridSize
     };
     fetch('/maze', {
             method: 'POST',
@@ -44,39 +48,38 @@ document.getElementById('_drawMaze').onclick = function() {
 
 
 function initGrid(ctx, mazeToMake, mazeHeight, mazeWidth) {
-
-    Object.getPrototypeOf(mazeToMake[0][0]).fill = function(ctx, color) {
-        ctx.fillStyle = color;
-        ctx.fillRect(
-            /*x1*/
-            this.wallX + 1,
-            /*y1*/
-            this.wallY + 1,
-            /*width*/
-            SQUARE_SIZE - 2,
-            /*height*/
-            SQUARE_SIZE - 2);
-    }
-
-    for (var k = 0; k <= mazeWidth * SQUARE_SIZE; k += SQUARE_SIZE) { //iterate through columns
-        ctx.beginPath();
-        ctx.moveTo(k, 0);
-        ctx.lineTo(k, mazeHeight * SQUARE_SIZE);
-        ctx.stroke();
-        ctx.closePath();
-    }
-    for (var j = 0; j <= mazeHeight * SQUARE_SIZE; j += SQUARE_SIZE) { //iterate through rows
-        ctx.beginPath();
-        ctx.moveTo(0, j);
-        ctx.lineTo(mazeWidth * SQUARE_SIZE, j);
-        ctx.stroke();
-        ctx.closePath();
+    ctx.fillRect(
+        /*x1*/
+        0,
+        /*y1*/
+        0,
+        /*width*/
+        mazeWidth * GRID_SIZE,
+        /*height*/
+        mazeHeight * GRID_SIZE);
+    if (!document.getElementById('_hideLines').checked) {
+        for (var k = 0; k <= mazeWidth * GRID_SIZE; k += GRID_SIZE) { //iterate through columns
+            ctx.beginPath();
+            ctx.moveTo(k, 0);
+            ctx.lineTo(k, mazeHeight * GRID_SIZE);
+            ctx.stroke();
+            ctx.closePath();
+        }
+        for (var j = 0; j <= mazeHeight * GRID_SIZE; j += GRID_SIZE) { //iterate through rows
+            ctx.beginPath();
+            ctx.moveTo(0, j);
+            ctx.lineTo(mazeWidth * GRID_SIZE, j);
+            ctx.stroke();
+            ctx.closePath();
+        }
     }
     for (var i = 0; i < mazeHeight; i++) {
         for (var n = 0; n < mazeWidth; n++) {
             mazeToMake[i][n].visited = false;
-            for (var dir in mazeToMake[i][n].brokenWalls) {
-                breakWall(mazeToMake[i][n], mazeToMake[i][n].brokenWalls[dir], ctx);
+            if (!document.getElementById('_hideLines').checked) {
+                for (var dir in mazeToMake[i][n].brokenWalls) {
+                    breakWall(mazeToMake[i][n], mazeToMake[i][n].brokenWalls[dir], ctx);
+                }
             }
         }
     }
@@ -88,18 +91,18 @@ function breakWall(node, direction, ctx) {
     // node.brokenWall = direction;
     if (direction == 'east') {
         // console.log("Break East", node.wallX);
-        // console.log("Node width,height", (node.wallX - node.wallX + SQUARE_SIZE), (node.wallY - node.wallY + SQUARE_SIZE));
+        // console.log("Node width,height", (node.wallX - node.wallX + GRID_SIZE), (node.wallY - node.wallY + GRID_SIZE));
         //Break right wall
 
         ctx.fillRect(
             /*x1*/
-            node.wallX + SQUARE_SIZE - 4,
+            node.wallX + GRID_SIZE - 4,
             /*y1*/
             node.wallY + 1,
             /*width*/
             8,
             /*height*/
-            SQUARE_SIZE - 2);
+            GRID_SIZE - 2);
     }
     if (direction == 'west') {
         // console.log("Break West", node.wallX);
@@ -112,7 +115,7 @@ function breakWall(node, direction, ctx) {
             /*width*/
             8,
             /*height*/
-            SQUARE_SIZE - 2);
+            GRID_SIZE - 2);
     }
     if (direction == 'north') {
         // console.log("Break North", node.wallY);
@@ -123,7 +126,7 @@ function breakWall(node, direction, ctx) {
             /*y1*/
             node.wallY - 4,
             /*width*/
-            SQUARE_SIZE - 2,
+            GRID_SIZE - 2,
             /*height*/
             8);
     }
@@ -134,9 +137,9 @@ function breakWall(node, direction, ctx) {
             /*x1*/
             node.wallX + 1,
             /*y1*/
-            node.wallY + SQUARE_SIZE - 4,
+            node.wallY + GRID_SIZE - 4,
             /*width*/
-            SQUARE_SIZE - 2,
+            GRID_SIZE - 2,
             /*height*/
             8);
     }

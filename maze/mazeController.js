@@ -4,5 +4,5 @@ var maze = require('./maze.js');
 
 exports.generateMaze = function(req, res) {
     res.setHeader('Content-Type', 'application/json');
-    res.send(maze.generateMaze(req.body.mazeHeight, req.body.mazeWidth));
+    res.send(maze.generateMaze(req.body.mazeHeight, req.body.mazeWidth, req.body.gridSize));
 };
