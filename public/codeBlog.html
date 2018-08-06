@@ -14,6 +14,9 @@
     #_playMaze{
       display:none;
     }
+    #about-maze{
+      float:left;
+    }
   </style>
 </head>
 <html>
@@ -71,6 +74,9 @@
         </ul>
         <button id="_playMaze">Play the maze!</button><button id="_solveMaze">Solve the maze!</button></br>
         <div id="mazeCanvasContainer"></div>
+        <div id='about-maze'>
+          This is a maze that generates using a depth first search algorithm. Starting and grid position 0,0 the algorithm checks adjecent grid squares for being previously visited. if not, then visit, else back track to point where there is an adjecent unvisted squre. The maze solving algorithm is extremely similar to the generation. This is just sample text, don't judge me.
+        </div>
       </div>
     </body>
 </html>
