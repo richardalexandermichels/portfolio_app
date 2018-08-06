@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<link rel="stylesheet" href="./css/styles.css" type="text/css" media="all">
+<link rel="import" href="./nav.html" id="_nav"/>
+<head>
+  <title>Code blog</title>
+  <style>
+    .maze-controls{
+      list-style-type:none;
+      padding:0;
+      margin:0;
+      float:left;
+    }
+    #_playMaze{
+      display:none;
+    }
+  </style>
+</head>
+<html>
+    <body>
+      <!-- MAZE CODE EXAMPLE -->
+      <div id='maze-code'>
+        <ul class="maze-controls">
+          <li>
+            <button id="_drawMaze">Draw a maze!</button> 
+          </li>
+
+          <li>
+            <input type='text' value='20' id="_mazeHeight"/>
+          </li>
+
+          <li>
+            <input type='text' value='20' id="_mazeWidth"/>
+          </li>
+
+          <li>
+            <input type='text' value='1' id="_squareSize"/>
+          </li>
+
+          <li>
+            <label style='text-decoration: underline;'>solve path opts</label>
+          </li>
+
+          <li>
+            <label>hide maze lines:</label><input type='checkbox' id="_hideLines" style='float:right'/>
+          </li>
+
+          <li>
+            <label>randomize color:</label><input type='checkbox' id="_randomColor" style='float:right'/>
+          </li>
+            
+          <li>
+            <label>randomize size:</label><input type='checkbox' id="_randomSize" style='float:right'/>
+          </li>
+
+          <li>
+            <select id="_color">
+              <option value="red">Red</option>
+              <option value="green">Green</option>
+              <option value="yellow">Yellow</option>
+              <option value="blue">Blue</option>
+            </select>
+          </li>
+
+          <li>
+            <select id="_gridSize">
+              <option value="20">20</option>
+              <option value="10">10</option>
+            </select>
+          </li>
+        </ul>
+        <button id="_playMaze">Play the maze!</button><button id="_solveMaze">Solve the maze!</button></br>
+        <div id="mazeCanvasContainer"></div>
+      </div>
+    </body>
+</html>
+<script src="/js/globals.js"></script>
+<script src="/dist/bundle.js"></script>
+<script src="/js/nav.js"></script>
