@@ -24,6 +24,8 @@ app.get('/chat', (req, res) => res.sendFile(__dirname + '/public/chat.html'));
 
 app.get('/meteorites', (req, res) => res.sendFile(__dirname + '/public/meteorites.html'));
 
+app.get('/d3-test', (req, res) => res.sendFile(__dirname + '/public/d3-test.html'));
+
 app.get('/codeBlog', (req, res) => res.sendFile(__dirname + '/public/codeBlog.html'));
 
 app.use('/maze', mazeRouter);

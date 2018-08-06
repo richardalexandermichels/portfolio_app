@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<link rel="stylesheet" href="./css/styles.css" type="text/css" media="all"> 
+<link rel="import" href="./nav.html" id="_nav"/>
+<head>
+  <title>D3 Test</title>
+  <style>
+  .axis--x path {
+    display: none;
+  }
+  .line {
+    fill: none;
+    stroke: steelblue;
+    stroke-width: 1.5px;
+  }
+  </style>
+</head>
+<html>
+    <body>
+        Hello World!      </br>
+      <svg width="800" height="640"></svg>
+    </body>
+</html>
+<script src="/js/nav.js"></script>
+<script src="https://d3js.org/d3.v5.min.js"></script>
+<script>
+var svg = d3.select("svg"),
+    margin = {top: 20, right: 20, bottom: 30, left: 50},
+    width = +svg.attr("width") - margin.left - margin.right,
+    height = +svg.attr("height") - margin.top - margin.bottom,
+    g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+var parseTime = d3.timeParse("%Y%m%d");
+
+var x = d3.scaleTime()
+    .rangeRound([0, width]);
+
+var y = d3.scaleLinear()
+    .rangeRound([height, 0]);
+
+var lineNY = d3.line()
+    .x(function(d) { return x(parseTime(d.date)); })
+    .y(function(d) { return y(d["New York"]); });
+
+var lineSF = d3.line()
+    .x(function(d) { return x(parseTime(d.date)); })
+    .y(function(d) { return y(d["San Francisco"]); });
+
+var lineAU = d3.line()
+    .x(function(d) { return x(parseTime(d.date)); })
+    .y(function(d) { return y(d["Austin"]); });
+
+d3.tsv("/data/dataReal.tsv").then(function(data) {
+
+  x.domain(d3.extent(data, function(d) { 
+    return parseTime(d.date); }));
+  y.domain([0,100]);
+
+  g.append("g")
+      .attr("transform", "translate(0," + height + ")")
+      .call(d3.axisBottom(x))
+    
+
+  g.append("g")
+      .call(d3.axisLeft(y))
+    .append("text")
+      .attr("fill", "#000")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", "0.71em")
+      .attr("text-anchor", "end")
+      .text("Average Temp");
+
+  g.append("path")
+      .datum(data)
+      .attr("fill", "none")
+      .attr("stroke", "steelblue")
+      .attr("stroke-linejoin", "round")
+      .attr("stroke-linecap", "round")
+      .attr("stroke-width", 1.5)
+      .attr("d", lineNY);
+
+  g.append("path")
+      .datum(data)
+      .attr("fill", "none")
+      .attr("stroke", "red")
+      .attr("stroke-linejoin", "round")
+      .attr("stroke-linecap", "round")
+      .attr("stroke-width", 1.5)
+      .attr("d", lineSF);
+
+  g.append("path")
+      .datum(data)
+      .attr("fill", "none")
+      .attr("stroke", "green")
+      .attr("stroke-linejoin", "round")
+      .attr("stroke-linecap", "round")
+      .attr("stroke-width", 1.5)
+      .attr("d", lineAU);
+});
+</script>
