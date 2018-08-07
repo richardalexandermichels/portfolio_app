@@ -39,7 +39,7 @@ body{
 
 .maze-flex-container{
 	display: flex;
-	justify-content: space-between;
+	justify-content: flex-start;
 }
 
 .maze-controls{

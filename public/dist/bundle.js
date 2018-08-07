@@ -8,6 +8,7 @@ document.getElementById('_drawMaze').click();
 
 function drawMaze() {
     var canvasContainer = document.getElementById('mazeCanvasContainer');
+    canvasContainer.style.margin = '10px';
     GRID_SIZE = +document.getElementById('_gridSize').value;
     var oldCanvas = document.getElementById('mazeCanvas');
     if (!!oldCanvas) {
