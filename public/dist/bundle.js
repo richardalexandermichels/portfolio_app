@@ -2,18 +2,22 @@
 'use strict';
 
 var GRID_SIZE;
-document.getElementById('_drawMaze').onclick = function () {
-    GRID_SIZE = +document.getElementById('_gridSize').value;
+
+document.getElementById('_drawMaze').onclick = drawMaze;
+document.getElementById('_drawMaze').click();
+
+function drawMaze() {
     var canvasContainer = document.getElementById('mazeCanvasContainer');
+    GRID_SIZE = +document.getElementById('_gridSize').value;
     var oldCanvas = document.getElementById('mazeCanvas');
     if (!!oldCanvas) {
         canvasContainer.removeChild(oldCanvas);
     }
     var m = document.createElement('canvas');
-
+    // m.style.border = '1px solid black';
     m.id = "mazeCanvas";
-    m.width = +document.getElementById('_mazeHeight').value * GRID_SIZE;
-    m.height = +document.getElementById('_mazeWidth').value * GRID_SIZE;
+    m.width = +document.getElementById('_mazeWidth').value * GRID_SIZE;
+    m.height = +document.getElementById('_mazeHeight').value * GRID_SIZE;
     m.style.zIndex = 8;
     canvasContainer.append(m);
 
@@ -42,6 +46,9 @@ document.getElementById('_drawMaze').onclick = function () {
         // console.log(response)
         return response.json();
     }).then(function (mTm) {
+        ANIMATE = false;
+        ctx.fillStyle = "#ffffff";
+        ctx.strokeStyle = 'rgb(0, 0, 0, 1)';
         mazeToMake = mTm;
         initGrid(ctx, mTm, mazeHeight, mazeWidth);
     });
@@ -266,7 +273,7 @@ function init() {
     GRID_SIZE = +document.getElementById('_gridSize').value;
     currentNode = mazeToSolve[0][0];
     currentNode.visited = true;
-
+    ANIMATE = true;
     SQUARE_MULTIPLYER = !!document.getElementById('_squareSize').value ? document.getElementById('_squareSize').value : 1;
 
     Object.getPrototypeOf(mazeToMake[0][0]).fill = function (ctx, color) {
@@ -357,13 +364,15 @@ function draw() {
     if (unvisitedNeighbors.length) {
         stack.push(currentNode);
         randomUnvisited = unvisitedNeighbors[Math.floor(Math.random() * unvisitedNeighbors.length)];
-        currentNode = move(currentNode, randomUnvisited);
-        if (document.getElementById('_randomColor').checked) {
-            currentNode.fill(ctx, '#' + Math.floor(Math.random() * 16777215).toString(16));
-        } else {
-            var color = document.getElementById('_color').value;
-            currentNode.fill(ctx, color);
-            currentNode.fillPath(ctx, color, randomUnvisited);
+        if (ANIMATE) {
+            currentNode = move(currentNode, randomUnvisited);
+            if (document.getElementById('_randomColor').checked) {
+                currentNode.fill(ctx, '#' + Math.floor(Math.random() * 16777215).toString(16));
+            } else {
+                var color = document.getElementById('_color').value;
+                currentNode.fill(ctx, color);
+                currentNode.fillPath(ctx, color, randomUnvisited);
+            }
         }
         // currentNode.fillPath(ctx, '#' + Math.floor(Math.random() * 16777215).toString(16), randomUnvisited);
 
@@ -375,7 +384,7 @@ function draw() {
         currentNode = stack.pop();
     }
 
-    if (currentNode.x != mazeWidth - 1 || currentNode.y != mazeHeight - 1) {
+    if ((currentNode.x != mazeWidth - 1 || currentNode.y != mazeHeight - 1) && ANIMATE) {
         window.requestAnimationFrame(draw);
     }
 }

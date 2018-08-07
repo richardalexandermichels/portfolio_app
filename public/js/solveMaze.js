@@ -14,7 +14,7 @@ function init() {
     GRID_SIZE = +document.getElementById('_gridSize').value;
     currentNode = mazeToSolve[0][0];
     currentNode.visited = true;
-
+    ANIMATE = true;
     SQUARE_MULTIPLYER = !!document.getElementById('_squareSize').value ? document.getElementById('_squareSize').value : 1;
 
 
@@ -108,13 +108,15 @@ function draw() {
     if (unvisitedNeighbors.length) {
         stack.push(currentNode);
         randomUnvisited = unvisitedNeighbors[Math.floor(Math.random() * unvisitedNeighbors.length)];
-        currentNode = move(currentNode, randomUnvisited);
-        if (document.getElementById('_randomColor').checked) {
-            currentNode.fill(ctx, '#' + Math.floor(Math.random() * 16777215).toString(16));
-        } else {
-            var color = document.getElementById('_color').value;
-            currentNode.fill(ctx, color);
-            currentNode.fillPath(ctx, color, randomUnvisited);
+        if (ANIMATE) {
+            currentNode = move(currentNode, randomUnvisited);
+            if (document.getElementById('_randomColor').checked) {
+                currentNode.fill(ctx, '#' + Math.floor(Math.random() * 16777215).toString(16));
+            } else {
+                var color = document.getElementById('_color').value;
+                currentNode.fill(ctx, color);
+                currentNode.fillPath(ctx, color, randomUnvisited);
+            }
         }
         // currentNode.fillPath(ctx, '#' + Math.floor(Math.random() * 16777215).toString(16), randomUnvisited);
 
@@ -130,7 +132,7 @@ function draw() {
 
     }
 
-    if (currentNode.x != mazeWidth - 1 || currentNode.y != mazeHeight - 1) {
+    if ((currentNode.x != mazeWidth - 1 || currentNode.y != mazeHeight - 1) && ANIMATE) {
         window.requestAnimationFrame(draw);
     }
 }

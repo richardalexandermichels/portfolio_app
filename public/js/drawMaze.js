@@ -1,16 +1,21 @@
 var GRID_SIZE;
-document.getElementById('_drawMaze').onclick = function() {
-    GRID_SIZE = +document.getElementById('_gridSize').value;
+
+
+document.getElementById('_drawMaze').onclick = drawMaze;
+document.getElementById('_drawMaze').click();
+
+function drawMaze() {
     var canvasContainer = document.getElementById('mazeCanvasContainer');
+    GRID_SIZE = +document.getElementById('_gridSize').value;
     var oldCanvas = document.getElementById('mazeCanvas');
     if (!!oldCanvas) {
         canvasContainer.removeChild(oldCanvas);
     }
     var m = document.createElement('canvas');
-
+    // m.style.border = '1px solid black';
     m.id = "mazeCanvas";
-    m.width = +document.getElementById('_mazeHeight').value * GRID_SIZE;
-    m.height = +document.getElementById('_mazeWidth').value * GRID_SIZE;
+    m.width = +document.getElementById('_mazeWidth').value * GRID_SIZE;
+    m.height = +document.getElementById('_mazeHeight').value * GRID_SIZE;
     m.style.zIndex = 8;
     canvasContainer.append(m);
 
@@ -41,6 +46,9 @@ document.getElementById('_drawMaze').onclick = function() {
             // console.log(response)
             return response.json();
         }).then(function(mTm) {
+            ANIMATE = false;
+            ctx.fillStyle = "#ffffff";
+            ctx.strokeStyle = 'rgb(0, 0, 0, 1)';
             mazeToMake = mTm;
             initGrid(ctx, mTm, mazeHeight, mazeWidth);
         });

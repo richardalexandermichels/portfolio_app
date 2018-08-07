@@ -1,4 +1,35 @@
-var navBar = document.getElementById('_nav').import;
+var navBarImport = document.getElementById('_nav').import;
+var navBar = navBarImport.getElementById('navigation');
+document.getElementsByClassName('body')[0].appendChild(navBar);
 
-document.body.appendChild(navBar.getElementById('navigation'));
-console.log('NAVBAR ', navBar)
+console.log(document.getElementsByClassName('body'));
+
+var currentUrlPath = window.location.pathname.substring(0);
+
+var tabs = navBar.querySelectorAll('a');
+
+var selectTab = {
+    '\/': function() {
+        tabs[0].style.borderBottom = '0px';
+        // tabs[0].style.backgroundColor = '#ffffff';
+    },
+    '\/about': function() {
+        tabs[1].style.borderBottom = '0px';
+        // tabs[1].style.backgroundColor = '#ffffff';
+    },
+    '\/codeBlog': function() {
+            tabs[2].style.borderBottom = '0px';
+            // tabs[2].style.backgroundColor = '#ffffff';
+        }
+        // ,
+        // '\/chat': function() {
+        //     tabs[3].style.borderBottom = '0px';
+        // }
+};
+
+console.log(currentUrlPath);
+console.log(typeof selectTab[currentUrlPath]);
+
+(function() {
+    selectTab[currentUrlPath]();
+}());

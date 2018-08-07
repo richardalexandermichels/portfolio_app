@@ -3,79 +3,105 @@
 <link rel="stylesheet" href="./css/styles.css" type="text/css" media="all">
 <link rel="import" href="./nav.html" id="_nav"/>
 <head>
-  <title>Code blog</title>
-  <style>
-    .maze-controls{
-      list-style-type:none;
-      padding:0;
-      margin:0;
-      float:left;
-    }
-    #_playMaze{
-      display:none;
-    }
-    #about-maze{
-      float:left;
-    }
-  </style>
+  <title>Code Blog</title>
 </head>
 <html>
     <body>
-      <!-- MAZE CODE EXAMPLE -->
-      <div id='maze-code' class='font-gill'>
-        <ul class="maze-controls">
-          <li>
-            <button id="_drawMaze">Draw a maze!</button> 
-          </li>
+      <div class="container-body font-gill">
+        <div class="body">
+          <h3 class="header">
+            CODE BLOG
+          </h3>
+           <p class="italic">
+            "We crave for new sensations but soon become indifferent to them. Wonders of yesterday are today common occurrences." - Nikola Tesla"
+           </p>
+          </br>
+          <h2 class="title mobile-margin-top">
+              A Personal Website Using VanillaJS
+          </h2>
+          <div class="content">
+            <p>
+              I've built applications using a very wide variety of frameworking technologies from Spring to Angular. But with my personal site I have a few specific goals in mind that I'd like to accomplish using just as much plain JavaScript as I can.
+            </p>
 
-          <li>
-            <input type='text' value='20' id="_mazeHeight"/>
-          </li>
+              <ol style='margin-left: 20px'>
+                <li>
+                  Light weight. I'd like as little overhead as possible.
+                </li>
+                <li>
+                  Learn responsive design outside of framework
+                </li>
+              </ol>
 
-          <li>
-            <input type='text' value='20' id="_mazeWidth"/>
-          </li>
+            <p>
+              The first goal is established immediately, I have little to worry about in terms of boiler plate code, various framework versions and other issues. 
 
-          <li>
-            <input type='text' value='1' id="_squareSize"/>
-          </li>
+              The second goal is much more interesting to me as I learned web application design from the framework side. At Fullstack we did some minor projects creating sites from scratch but I wanted to take a deeper dive into understanding and building a responsive web application using only Vanilla JavaScript. I believe that understanding the fundamental behvariors of JS will help my use of the powerful frameworks.
+            </p>
+          </div>
+        </br>
+        </br>
+        </br>
+          <h2 class="title mobile-margin-top">
+              Maze Generation and Solving
+          </h2>
+          <div class="content">
+            <!-- MAZE CODE EXAMPLE -->
+            <div id='maze-code' class='font-gill'>
+              <div class='maze-flex-container'>
+                <ul class="maze-controls">
+                  <li>
+                    <button id="_drawMaze">Draw a maze!</button><button id="_solveMaze">Solve the maze!</button></br>
+                  </li>
 
-          <li>
-            <label style='text-decoration: underline;'>solve path opts</label>
-          </li>
+                  <li>
+                    <label>Height: </label><input type='text' value='20' id="_mazeHeight"/>
+                  </li>
 
-          <li>
-            <label>hide maze lines:</label><input type='checkbox' id="_hideLines" style='float:right'/>
-          </li>
+                  <li>
+                    <label>Width: </label><input type='text' value='50' id="_mazeWidth"/>
+                  </li>
 
-          <li>
-            <label>randomize color:</label><input type='checkbox' id="_randomColor" style='float:right'/>
-          </li>
-            
-          <li>
-            <label>randomize size:</label><input type='checkbox' id="_randomSize" style='float:right'/>
-          </li>
+                  <li>
+                    <input type='text' value='1' id="_squareSize"/>
+                  </li>
 
-          <li>
-            <select id="_color">
-              <option value="red">Red</option>
-              <option value="green">Green</option>
-              <option value="yellow">Yellow</option>
-              <option value="blue">Blue</option>
-            </select>
-          </li>
+                  <li>
+                    <label>hide maze lines:</label><input type='checkbox' id="_hideLines" style='float:right'/>
+                  </li>
 
-          <li>
-            <select id="_gridSize">
-              <option value="20">20</option>
-              <option value="10">10</option>
-            </select>
-          </li>
-        </ul>
-        <button id="_playMaze">Play the maze!</button><button id="_solveMaze">Solve the maze!</button></br>
-        <div id="mazeCanvasContainer"></div>
-        <div id='about-maze'>
-          This is a maze that generates using a depth first search algorithm. Starting and grid position 0,0 the algorithm checks adjecent grid squares for being previously visited. if not, then visit, else back track to point where there is an adjecent unvisted squre. The maze solving algorithm is extremely similar to the generation. This is just sample text, don't judge me.
+                  <li>
+                    <label>randomize color:</label><input type='checkbox' id="_randomColor" style='float:right'/>
+                  </li>
+                    
+                  <li>
+                    <label>randomize size:</label><input type='checkbox' id="_randomSize" style='float:right'/>
+                  </li>
+
+                  <li>
+                    <select id="_color">
+                      <option value="red">Red</option>
+                      <option value="green">Green</option>
+                      <option value="yellow">Yellow</option>
+                      <option value="blue">Blue</option>
+                    </select>
+                  </li>
+
+                  <li>
+                    <select id="_gridSize">
+                      <option value="10">10</option>
+                      <option value="20">20</option>
+                    </select>
+                  </li>
+                </ul>
+                <button id="_playMaze">Play the maze!</button>
+                <div id="mazeCanvasContainer"></div>
+              </div>
+              <div id='about-maze'>
+                This is a maze that generates using a depth first search algorithm. Starting and grid position 0,0 the algorithm checks adjecent grid squares for being previously visited. if not, then visit, else back track to point where there is an adjecent unvisted squre. The maze solving algorithm is extremely similar to the generation. This is just sample text, don't judge me.
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </body>

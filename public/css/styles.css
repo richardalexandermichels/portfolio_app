@@ -1,30 +1,61 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body{
-margin-top: 20px;
+	margin-top: 20px;
 }
 #navigation{
     position: fixed;
     top:0px;
-    width:100%;
+    width:55%;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    background: rgba(255,255,255,1);
 }
 #nav-items{
-	margin-right: 20px;
     float:right;
+    height:100%;
+    background: rgba(255,255,255,1);
+    margin-left: auto;
+    margin-right: 10px;
 }
 
 #nav-items > a{
     text-decoration: none;
-    border-right: 1px solid gray;
+    /*background-color: lightgray;*/
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
     padding-right: 5px;
+    padding-left: 5px;
+    width:25%;
+    margin-left: -6px;
     color:black;
 }
 
+
 #nav-items > a:last-of-type {
     border-right: 0px!important;
+    margin-left: -5px;
+    /*background-color: lightgray;*/
 }
 
-#maze-code{
-	margin:20px;
+.maze-flex-container{
+	display: flex;
+	justify-content: space-between;
+}
+
+.maze-controls{
+  list-style-type:none;
+  padding:0;
+  margin:0;
+  /*float:left;*/
+}
+#_playMaze{
+  display:none;
+}
+#_drawMaze{
+  margin-right: 10px
+}
+#about-maze{
+  /*float:left;*/
 }
 
 .header{ 
