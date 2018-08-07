@@ -32,6 +32,14 @@ function drawMaze() {
     ctx.strokeStyle = 'rgb(0, 0, 0, 1)';;
     ctx.lineWidth = 2;
 
+    var image = m.toDataURL("image/png").replace("image/png", "image/octet-stream"); // here is the most important part because if you dont replace you will get a DOM 18 exception.
+    document.getElementById('_saveCanvas').onclick = function () {
+        var link = document.getElementById('_canvasSaveAs');
+        link.setAttribute('download', 'MyMaze.png');
+        link.setAttribute('href', m.toDataURL("image/png").replace("image/png", "image/octet-stream"));
+        link.click();
+    };
+
     var data = {
         mazeHeight: mazeHeight,
         mazeWidth: mazeWidth,

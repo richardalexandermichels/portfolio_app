@@ -50,8 +50,8 @@
             <div id='maze-code' class='font-gill'>
               <div class='maze-flex-container'>
                 <ul class="maze-controls">
-                  <li>
-                    <button id="_drawMaze">Draw a maze!</button><button id="_solveMaze">Solve the maze!</button></br>
+                  <li class='maze-control-flex'>
+                    <button id="_drawMaze">Draw a maze!</button><button id="_solveMaze">Solve the maze!</button>
                   </li>
 
                   <li class='maze-control-flex'>
@@ -94,6 +94,9 @@
                       <option value="10">10</option>
                       <option value="20">20</option>
                     </select>
+                  </li>
+                  <li>
+                    <button id='_saveCanvas'>Save canvas!</button><a href='#' style='display:none' id='_canvasSaveAs'></a>
                   </li>
                 </ul>
                 <button id="_playMaze">Play the maze!</button>
