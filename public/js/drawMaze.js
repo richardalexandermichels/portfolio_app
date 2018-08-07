@@ -33,7 +33,11 @@ function drawMaze() {
     var image = m.toDataURL("image/png").replace("image/png", "image/octet-stream"); // here is the most important part because if you dont replace you will get a DOM 18 exception.
     document.getElementById('_saveCanvas').onclick = function() {
         var link = document.getElementById('_canvasSaveAs');
-        link.setAttribute('download', 'MyMaze.png');
+        var fileName = document.getElementById('_fileName').value;
+        if (fileName === null || fileName.length == 0) {
+            fileName = 'MyMaze';
+        }
+        link.setAttribute('download', fileName + '.png');
         link.setAttribute('href', m.toDataURL("image/png").replace("image/png", "image/octet-stream"));
         link.click();
     };
