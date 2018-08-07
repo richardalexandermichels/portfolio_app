@@ -54,31 +54,32 @@
                     <button id="_drawMaze">Draw a maze!</button><button id="_solveMaze">Solve the maze!</button></br>
                   </li>
 
-                  <li>
+                  <li class='maze-control-flex'>
                     <label>Height: </label><input type='text' value='20' id="_mazeHeight"/>
                   </li>
 
-                  <li>
+                  <li class='maze-control-flex'>
                     <label>Width: </label><input type='text' value='20' id="_mazeWidth"/>
                   </li>
 
-                  <li>
-                    <input type='text' value='1' id="_squareSize"/>
+                  <li class='maze-control-flex'>
+                    <label>Path scale: </label><input type='text' value='1' id="_squareSize"/>
                   </li>
 
-                  <li>
-                    <label>hide maze lines:</label><input type='checkbox' id="_hideLines" style='float:right'/>
+                  <li class='maze-control-flex'>
+                    <label>Hide maze lines:</label><input type='checkbox' id="_hideLines"/>
                   </li>
 
-                  <li>
-                    <label>randomize color:</label><input type='checkbox' id="_randomColor" style='float:right'/>
+                  <li class='maze-control-flex'>
+                    <label>Randomize color:</label><input type='checkbox' id="_randomColor"/>
                   </li>
                     
-                  <li>
-                    <label>randomize size:</label><input type='checkbox' id="_randomSize" style='float:right'/>
+                  <li class='maze-control-flex'>
+                    <label>Randomize size:</label><input type='checkbox' id="_randomSize"/>
                   </li>
 
-                  <li>
+                  <li class='maze-control-flex'>
+                    <label>Path color:</label>
                     <select id="_color">
                       <option value="red">Red</option>
                       <option value="green">Green</option>
@@ -87,7 +88,8 @@
                     </select>
                   </li>
 
-                  <li>
+                  <li class='maze-control-flex'>
+                    <label>Grid size:</label>
                     <select id="_gridSize">
                       <option value="10">10</option>
                       <option value="20">20</option>
@@ -101,6 +103,36 @@
                 This is a maze that generates using a depth first search algorithm. Starting and grid position 0,0 the algorithm checks adjecent grid squares for being previously visited. if not, then visit, else back track to point where there is an adjecent unvisted squre. The maze solving algorithm is extremely similar to the generation. This is just sample text, don't judge me.
               </div>
             </div>
+          </div>
+          </br>
+          </br>
+          </br>
+          <h2 class="title mobile-margin-top">
+              Conway's Game of Life
+          </h2>
+          <div class='content'>
+            <div class="gameOfLifeContainer">
+                <canvas id="gameOfLifeCanvas" width="400" height="400"></canvas>
+                <canvas id="gridCanvas" width="400" height="400"></canvas>
+                <div class="gameOfLifeControls">
+                  <button id="animateButton">
+                    Animate
+                  </button>
+                  <button id="stopButton">
+                    Stop
+                  </button>
+                  <button id="resetButton">
+                    Reset
+                  </button>
+                  <button id="clearButton">
+                    Clear
+                  </button>
+                  <input name="animationSpeed" id="animationSpeed" placeholder="frames per second">
+                </div>
+            </div>
+            <div id='about-gol'>
+                This is a basic implementation of the classic cellular automata Conway's Game Of Life. This version attempts to create mirrored edges so the cels can propogate from one edge back to the opposite. This currently doesn't work at all.
+              </div>
           </div>
         </div>
       </div>

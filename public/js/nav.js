@@ -17,7 +17,7 @@ var selectTab = {
         tabs[1].style.borderBottom = '0px';
         // tabs[1].style.backgroundColor = '#ffffff';
     },
-    '\/codeBlog': function() {
+    '\/code': function() {
             tabs[2].style.borderBottom = '0px';
             // tabs[2].style.backgroundColor = '#ffffff';
         }
