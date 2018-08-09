@@ -16,7 +16,7 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 
-app.get('/about', (req, res) => res.sendFile(__dirname + '/public/about.html'));
+app.get('/bio', (req, res) => res.sendFile(__dirname + '/public/bio.html'));
 
 // app.get('/', (req, res) => res.send('Hello World! </br> <a href="/about">about me</a>'));
 

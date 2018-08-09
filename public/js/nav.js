@@ -13,7 +13,7 @@ var selectTab = {
         tabs[0].style.borderBottom = '0px';
         // tabs[0].style.backgroundColor = '#ffffff';
     },
-    '\/about': function() {
+    '\/bio': function() {
         tabs[1].style.borderBottom = '0px';
         // tabs[1].style.backgroundColor = '#ffffff';
     },
