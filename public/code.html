@@ -15,7 +15,7 @@
            <p class="italic">
             "We crave for new sensations but soon become indifferent to them. Wonders of yesterday are today common occurrences." - Nikola Tesla"
            </p>
-          </br>
+          <br/>
           <h2 class="title mobile-margin-top">
               A Personal Website Using VanillaJS
           </h2>
@@ -34,14 +34,19 @@
               </ol>
 
             <p>
-              The first goal is established immediately, I have little to worry about in terms of boiler plate code, various framework versions and other issues.
-
-              The second goal is much more interesting to me as I learned web application design from the framework side. At Fullstack we did some minor projects creating sites from scratch but I wanted to take a deeper dive into understanding and building a responsive web application using only Vanilla JavaScript. I believe that understanding the fundamental behvariors of JS will help my use of the powerful frameworks.
+              The first goal is established immediately, I have little to worry about in terms of boiler 
+              plate code, various framework versions and other issues. The second goal is much more 
+              interesting to me as I learned web application design from the framework side. At Fullstack 
+              we did some minor projects creating sites from scratch but I wanted to take a deeper dive 
+              into understanding and building a responsive web application using only vanilla JavaScript. 
+              I believe that understanding the fundamentals will help me levarage all of the dynamic latent 
+              JavaScript features when I am doing more robust application devlopment using a front end framework.
+              
             </p>
           </div>
-        </br>
-        </br>
-        </br>
+        <br/>
+        <br/>
+        <br/>
           <h2 class="title mobile-margin-top">
               Maze Generation and Solving
           </h2>
@@ -103,13 +108,19 @@
                 <div id="mazeCanvasContainer"></div>
               </div>
               <div id='about-maze'>
-                This is a maze that generates using a depth first search algorithm. Starting and grid position 0,0 the algorithm checks adjecent grid squares for being previously visited. if not, then visit, else back track to point where there is an adjecent unvisted squre. The maze solving algorithm is extremely similar to the generation. This is just sample text, don't judge me.
+                This is an implementation of a depth first search based maze generation and solving algorithms using backtracking. It is
+                a logically fairly simple approach that was a lot of fun to implement in code. What struck me as most interesting was creating
+                the maze solving algorithm. While it is largely identical to the generation, I found with a couple simple changes to the
+                canvas (e.g. removing grid lines, changing colors and size of solved path) ended up creating rather striking procedurally
+                generated art. And that is a perfect example of how I fell in love with coding. It’s not the intent behind the code that
+                fascinates me, but the kinds of emergent behaviors that inevitably arrive during the process of development and actually
+                usage of the program.
               </div>
             </div>
           </div>
-          </br>
-          </br>
-          </br>
+          <br/>
+          <br/>
+          <br/>
           <h2 class="title mobile-margin-top">
               Conway's Game of Life
           </h2>
@@ -134,7 +145,11 @@
                 </div>
             </div>
             <div id='about-gol'>
-                This is a basic implementation of the classic cellular automata Conway's Game Of Life. This version attempts to create mirrored edges so the cels can propogate from one edge back to the opposite. This currently doesn't work at all.
+              This is a basic implementation of the classic cellular automata Conway's Game Of Life. One of the very first things we did
+              at Fullstack was create a Game of Life using CSS and Javascript. I love emergent behavior and procedural generation and the
+              beautiful way that manifest in this execution of a simple rule set. This version is designed using a canvas element and pure
+              Javascript. This version attempts to create mirrored edges so the cells can propagate from one edge back to the opposite.
+              However, this aspect is still under heavy development.
               </div>
           </div>
         </div>
