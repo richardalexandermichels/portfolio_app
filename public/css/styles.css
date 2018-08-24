@@ -177,15 +177,29 @@ img.resize{
   font-family: Gill Sans Extrabold, sans-serif;  
 }
 
+
+.img-container img{
+  padding:20px;
+  width:100%;
+  height:auto;
+  border-radius: 50%;
+}
+
 @media (max-width:1600px){
   .about{
     width:60%;
   }
+  .img-container {
+    width: 40%;
+  }
 }
 
 @media (max-width:1400px){
-  .about{
+  .about {
     width:50%;
+  }
+  .img-container {
+    width: 50%;
   }
 }
 
@@ -193,11 +207,17 @@ img.resize{
   .about{
     width:40%;
   }
+  .img-container {
+    width: 60%;
+  }
 }
 
 @media (max-width:1000px){
-  .about{
+  .about {
     width:30%;
+  }
+  .img-container {
+    width: 70%;
   }
 }
 
