@@ -4,7 +4,7 @@ html {
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body{
 	margin-top: 20px;
-	margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 #navigation{
     position: fixed;

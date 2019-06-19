@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 <link rel="stylesheet" href="./css/styles.css" type="text/css" media="all">
+<link rel="stylesheet" href="./css/d3Style.css" type="text/css" media="all">
 <link rel="import" href="./nav.html" id="_nav"/>
+<script src="https://d3js.org/d3.v5.min.js"></script>
 <head>
   <title>Code Blog</title>
 </head>
@@ -151,6 +153,36 @@
               Javascript. It attempts to create mirrored edges so the cells can propagate from one edge back to the opposite.
               However, this aspect is still under heavy development.
               </div>
+          </div>
+          <br />
+          <br />
+          <br />
+          <h2 class="title mobile-margin-top">
+            NBA Stats
+          </h2>
+          <div class='content'>
+            <select id='teamSelect'>
+            
+            </select>
+            <label class='container'>
+              <input type='checkbox' id='realAllTeamsBox' checked='checked'>
+              <span class="checkmark" id='allTeamsBox'></span>
+            </label>
+            <span class='sort-order'>
+              <label class='lbl'>Sort order:</label>
+              <select id='sortSelect'>
+                <option value='ftmRank'>FT Rank</option>
+                <option value='ftPct'>FT Percent</option>
+                <option value='fg3Pct'>FG3 Percent</option>
+              </select>
+            </span>
+            <div id="nba-radial"></div>
+            <div class='key'>
+              Color temp: free throws made rank | Inner radius: 3 point field goal percentage | Outer radius: Free throw percentage
+            </div>
+            <div class='key'>
+              Uncheck box for all players
+            </div>
           </div>
         </div>
       </div>

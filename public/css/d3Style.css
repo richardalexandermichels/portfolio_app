@@ -1,0 +1,228 @@
+/* html, body {margin: 0; height: 100%; overflow: hidden} */
+
+body{
+  background-color: rgb(255, 255, 255)
+}
+.circle-graph{
+  background-color: #fff;
+  padding:10px;
+}
+img{
+    width:50%;
+    filter: blur(20px) hue-rotate(0deg) contrast(100%) brightness(100%);
+}
+
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  /* outline: 0;
+  box-shadow: none;*/
+  border: 0 !important;/*
+  background: #2c3e50;
+  background-image: none; */
+  border-radius: 0%;
+  font-size: 20px;
+  font-weight: 100;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+
+
+.lbl{
+  font-size: 15px;
+  font-weight: 100;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.key{
+  font-size: .5em;
+  font-weight: 100;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+/* Hide the browser's default checkbox */
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  /* top: 10px; */
+  /* left: 710px; */
+  height: 23px;
+  width: 23px; 
+  background-color: #eee;
+  display:inline;
+}
+
+/* On mouse-over, add a grey background color */
+.container:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.container input:checked ~ .checkmark {
+  background-color: rgb(78, 188, 216);
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.container .checkmark:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 1px 1px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+.sort-order{
+    margin-left:25px;
+}
+div.tooltip {
+  position: absolute;
+  text-align: center;
+  width: auto;
+  height: 96px;
+  padding: 2px;
+  font-weight: 300;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  text-align: left;
+  background: rgb(248, 248, 248);
+  border-radius: 2px;
+  border: 0px;
+  
+  pointer-events: none;
+}
+
+.vertical-center{
+  margin: 0;
+  /* position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%); */
+}
+
+/* .labels ul, .labels li {
+    margin: 0; 
+    padding: 0;
+} */
+
+/* .labels li {
+    margin-top:2px;
+} */
+
+#submission{
+    width:100%;
+    text-align: center;
+}
+
+
+
+
+.button {
+  /* To position the buttons to the same position of the text fields */
+  padding-left: 90px; /* same size as the label elements */
+}
+
+button {
+  /* This extra margin represent roughly the same space as the space
+     between the labels and their text fields */
+  margin-left: .5em;
+}
+
+/*TABLE*/
+
+th{
+  text-align: left;
+}
+table,th,td{
+  border: 1px solid black
+}
+
+/* nba chart radial*/
+.title {
+  font-size: 28px;
+  fill: #4F4F4F;
+  font-weight: 300;
+  text-anchor: start;
+}
+
+.subtitle {
+  font-size: 14px;
+  fill: #AAAAAA;
+  font-weight: 300;
+  text-anchor: start;
+}
+
+.credit {
+  font-size: 12px;
+  fill: #AAAAAA;
+  font-weight: 300;
+  text-anchor: start;
+}
+
+.axis path,
+.axis tick,
+.axis line {
+    fill: none;
+    stroke: none;
+}
+
+.axis text {
+    font-size: 12px;
+    fill: #AAAAAA;
+    font-weight: 400;
+}
+
+.legendTitle {
+    font-size: 14px;
+    fill: #4F4F4F;
+    font-weight: 300;
+}
+
+.january {
+  font-size: 14px;
+  text-anchor: start;
+  font-weight: 300;
+  fill: #AAAAAA;
+}
+
+.yearLine {
+  stroke: #AAAAAA;
+}
+
+.axisText {
+  fill: rgb(180, 180, 180);
+  font-size: 11px;
+  font-weight: 300;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  text-anchor: middle;
+  text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;
+}
+
+.axisCircles {
+  fill: none;
+  stroke: #E8E8E8;
+  stroke-width: 1px;
+}
