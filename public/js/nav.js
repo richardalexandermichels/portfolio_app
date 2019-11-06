@@ -6,20 +6,20 @@ console.log(document.getElementsByClassName('body'));
 
 var currentUrlPath = window.location.pathname.substring(0);
 
-var tabs = navBar.querySelectorAll('a');
+var tabs = navBar.querySelectorAll('li');
 
 var selectTab = {
     '\/': function() {
         tabs[0].style.borderBottom = '0px';
-        // tabs[0].style.backgroundColor = '#ffffff';
+        tabs[0].style.backgroundColor = '#ffffff';
     },
     '\/bio': function() {
         tabs[1].style.borderBottom = '0px';
-        // tabs[1].style.backgroundColor = '#ffffff';
+        tabs[1].style.backgroundColor = '#ffffff';
     },
     '\/code': function() {
             tabs[2].style.borderBottom = '0px';
-            // tabs[2].style.backgroundColor = '#ffffff';
+            tabs[2].style.backgroundColor = '#ffffff';
         }
         // ,
         // '\/chat': function() {
